@@ -1,0 +1,21 @@
+Start:
+    > Generuj losowy numer z length tablicy z wyrazami
+    > Znajdz odpowiadajacy mu wyraz
+    > Wyswietl kategorie wyrazu i podkreslniki zgodnie z liczba liter wyrazu
+
+Użytkownik wybiera literę:
+    > Czy litera w wybranym wyrazie?
+        > TAK: Zastap podkreslniki odpowiednimi literami
+        > NIE: Zabierz jedno zycie uzytkownikowi
+
+Uzytkownik resetuje gre:
+    > Generuj nowy wyraz
+    > Zresetuj punkty i liczbe zyc uzytkownika
+
+Uzytkownik odkrywa caly wyraz:
+    > Dodaj punkt
+    > Wylosuj kolejny wyraz
+    > Zresetuj liczbe zyc
+
+Jezeli liczba zyc = 0 
+    > Zabron dalszej rozgrywki

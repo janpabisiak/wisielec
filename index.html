@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>fdaw</title>
+    <link rel="stylesheet" href="src/style.css">
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Wisielec</h1>
+        <div class="dodo">
+            <p>Kategoria: <span id="category"></span></p>
+            <p>Liczba żyć: <span id="lives"></span></p>
+        </div>
+        <p id="wordToGuess">Słowo do zgadnięcia</p>
+        <p id="p-usedLetters" class="hidden">Użyte litery: <span id="usedLetters"></span></p>
+        <p id="alert" class="hidden" color="green"></p>
+        <div class="dodo2">
+            <input type="text" id="guessingChar" maxlength="1" size="5">
+            <button type="button" class="btn" id="btnguess">Zgaduj</button>
+            <button type="button" class="btn" id="btnhint">Podpowiedź</button>
+        </div>
+        <button type="button" id="btnsettings"><img src="src/images/settings.png" alt="restart" border="0" width="30px" /></button>
+        <button type="button" id="btnnewGame"><img src="src/images/play-again.png" alt="restart" border="0" width="30px" /></button>
+    </div>
+    <footer>
+        <p>Copyright &copy; 2023 | <a href="https://github.com/janpabisiak">Jan Pabisiak</a></p>
+    </footer>
+
+    <audio id="guessedAudio">
+        <source src="src/audio/guessed.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="wonAudio">
+        <source src="src/audio/won.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="lostAudio">
+        <source src="src/audio/lost.mp3" type="audio/mpeg">
+    </audio>
+</body>
+
+</html>
