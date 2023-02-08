@@ -3,8 +3,6 @@
 // TODO: MAX WORDS LENGTH
 // TODO: DARK MODE
 // TODO: SCORES
-// TODO: PODPOWIEDŹ
-// FIX: ONLY LETTERS CAN BE USED (ASCII)
 class App {
 	// Words directory
 	words = {
@@ -312,36 +310,42 @@ class App {
 	/** Checks if word to guess contains user letter. */
 	guessLetter() {
 		this.stopAudio();
+		// Only letter is allowed
 		// Only 1 letter is allowed
 		if (guessingCharEl.value.length === 1 && this.playable) {
 			// Get letter from guessingChar DOM Element
 			const guessingChar = guessingCharEl.value.toLowerCase();
-			if (!this.usedLetters.includes(guessingChar)) {
-				const guessingCharIndexes = [];
-				this.usedLetters.push(guessingChar);
-				// Look for correct letters indexes
-				this.word.split('').map((letter, i) => {
-					if (letter.toLowerCase() === guessingChar) guessingCharIndexes.push(i);
-				});
-				if (guessingCharIndexes.length > 0) {
-					// Replace underscores in wordToGuess with the correct letter
-					for (const index of guessingCharIndexes) {
-						this.wordToGuess = this.wordToGuess.split('');
-						this.wordToGuess[index] = guessingChar;
-						this.wordToGuess = this.wordToGuess.join('');
+			// test
+			if (/[a-zA-z`]/.test(guessingChar)) {
+				if (!this.usedLetters.includes(guessingChar)) {
+					const guessingCharIndexes = [];
+					this.usedLetters.push(guessingChar);
+					// Look for correct letters indexes
+					this.word.split('').map((letter, i) => {
+						if (letter.toLowerCase() === guessingChar) guessingCharIndexes.push(i);
+					});
+					if (guessingCharIndexes.length > 0) {
+						// Replace underscores in wordToGuess with the correct letter
+						for (const index of guessingCharIndexes) {
+							this.wordToGuess = this.wordToGuess.split('');
+							this.wordToGuess[index] = guessingChar;
+							this.wordToGuess = this.wordToGuess.join('');
+						}
+						wordToGuessEl.textContent = this.wordToGuess.split('').join(' ').toUpperCase();
+						guessedAudioEl.play();
+					} else {
+						this.lives--;
 					}
-					wordToGuessEl.textContent = this.wordToGuess.split('').join(' ').toUpperCase();
-					guessedAudioEl.play();
+					// Update game DOM
+					livesEl.textContent = this.lives;
+					pUsedLettersEl.classList.remove('hidden');
+					usedLettersEl.textContent = this.usedLetters.join(', ').toUpperCase();
+					alertEl.classList.add('hidden');
 				} else {
-					this.lives--;
+					this.alertUser(`Już używałeś/aś tej litery!`, 0);
 				}
-				// Update game DOM
-				livesEl.textContent = this.lives;
-				pUsedLettersEl.classList.remove('hidden');
-				usedLettersEl.textContent = this.usedLetters.join(', ').toUpperCase();
-				alertEl.classList.add('hidden');
 			} else {
-				this.alertUser(`Już używałeś/aś tej litery!`, 0);
+				this.alertUser(`Nieprawidłowa litera`, 0);
 			}
 		} else {
 			this.alertUser(`Nieprawidłowa liczba liter!`, 0);
@@ -380,6 +384,11 @@ class App {
 		}
 	}
 
+	showWordHint() {
+		wordHintEl.textContent = this.wordHint;
+		wordHintEl.classList.toggle('hidden');
+	}
+
 	/** Alert user with something. */
 	alertUser(text, isGood = true) {
 		if (isGood) {
@@ -388,7 +397,7 @@ class App {
 			alertEl.style.color = '#ba181b';
 		}
 		alertEl.textContent = text;
-		alertEl.classList.remove('hidden');
+		alertEl.classList.remove('.hidden');
 	}
 
 	/** Checks for playing audio and stop it. */
@@ -423,7 +432,8 @@ const alertEl = document.querySelector('#alert');
 const guessingDivEl = document.querySelector('.dodo2');
 const guessingCharEl = document.querySelector('#guessingChar');
 const btnGuessEl = document.querySelector('#btnguess');
-const btnNewGame = document.querySelector('#btnnewGame');
+const btnNewGameEl = document.querySelector('#btnnewGame');
+const btnHintEl = document.querySelector('#btnhint');
 const categoryEl = document.querySelector('#category');
 const livesEl = document.querySelector('#lives');
 const pUsedLettersEl = document.querySelector('#p-usedLetters');
@@ -431,6 +441,7 @@ const usedLettersEl = document.querySelector('#usedLetters');
 const guessedAudioEl = document.querySelector('#guessedAudio');
 const wonAudioEl = document.querySelector('#wonAudio');
 const lostAudioEl = document.querySelector('#lostAudio');
+const wordHintEl = document.querySelector('#wordHint');
 
 const app = new App();
 app._printData();
@@ -441,4 +452,6 @@ document.addEventListener('keydown', function (event) {
 	if (event.key === 'Enter') btnGuessEl.click();
 });
 
-btnNewGame.addEventListener('click', app.newGame.bind(app));
+btnHintEl.addEventListener('click', app.showWordHint.bind(app));
+
+btnNewGameEl.addEventListener('click', app.newGame.bind(app));
