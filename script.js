@@ -265,7 +265,7 @@ class App {
 		this.newGame();
 	}
 
-	/** Draws the world and prepares game variables. */
+	/** Draws the word and prepares game variables. */
 	newGame() {
 		this.stopAudio();
 		// Set variables
